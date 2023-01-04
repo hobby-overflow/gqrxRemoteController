@@ -3,10 +3,12 @@ package main
 import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/widget"
+	"github.com/ziutek/telnet"
 )
 
 var windowPtr *fyne.Window
 var labelPtr *widget.Label
+var telnetPtr *telnet.Conn
 
 type enterEntry struct {
 	widget.Entry
@@ -16,16 +18,20 @@ func (e *enterEntry) onEnter() {
 	if e.Text == "" {
 		return
 	}
-	labelPtr.SetText(setFreq(e.Text))
+	freq := setFreq(e.Text)
+	labelPtr.SetText(freq)
+	SendMessage(telnetPtr, "F "+freq)
 	e.clearEntry()
 }
 
 func (e *enterEntry) onA() {
-	println("Set AM")
+	labelPtr.SetText("Set AM")
+	SendMessage(telnetPtr, "M AM")
 }
 
 func (e *enterEntry) onF() {
-	println("Set FM")
+	labelPtr.SetText("Set FM")
+	SendMessage(telnetPtr, "M FM")
 }
 
 func newEnterEntry() *enterEntry {
@@ -40,6 +46,7 @@ func (e *enterEntry) KeyDown(key *fyne.KeyEvent) {
 		e.onEnter()
 	case fyne.KeyReturn:
 		e.onEnter()
+
 	case fyne.KeyA:
 		e.onA()
 	case fyne.KeyF:
