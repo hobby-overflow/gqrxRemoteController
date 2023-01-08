@@ -1,6 +1,9 @@
 package main
 
-import "github.com/ziutek/telnet"
+import (
+	"github.com/ziutek/telnet"
+	"strings"
+)
 
 func checkErr(err error) {
 	if err != nil {
@@ -8,10 +11,24 @@ func checkErr(err error) {
 	}
 }
 
-func SendMessage(conn *telnet.Conn, msg string) string {
-	_, err := conn.Write([]byte(msg + "\n"))
+func newSession(addr string) *telnet.Conn {
+	conn, err := telnet.Dial("tcp", addr)
 	checkErr(err)
-	response := readResponse(conn)
+
+	return conn
+}
+
+func SendMessage(msg string) string {
+	t := newSession("127.0.0.1:7356")
+	defer t.Close()
+
+	println(msg)
+	if strings.Contains(msg, "\n") == false {
+		msg += "\n"
+	}
+	_, err := t.Write([]byte(msg + "\n"))
+	checkErr(err)
+	response := readResponse(t)
 	return response
 }
 

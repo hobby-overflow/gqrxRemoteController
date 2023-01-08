@@ -2,7 +2,6 @@ package main
 
 import (
 	"strings"
-
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
@@ -57,7 +56,6 @@ func main() {
 
 	windowPtr = &w
 	labelPtr = freqView
-	telnetPtr = t
 
 	w.Canvas().Focus(input)
 	w.ShowAndRun()
