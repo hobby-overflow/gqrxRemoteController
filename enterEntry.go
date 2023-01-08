@@ -20,7 +20,10 @@ func (e *enterEntry) onEnter() {
 	}
 	freq := setFreq(e.Text)
 	labelPtr.SetText(freq)
-	SendMessage(telnetPtr, "F "+freq)
+	response := SendMessage(telnetPtr, "F "+freq)
+	if response == "RPRT 1\n" {
+		labelPtr.SetText("ERROR")
+	}
 	e.clearEntry()
 }
 
