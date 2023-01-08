@@ -26,7 +26,7 @@ func SendMessage(msg string) string {
 	if strings.Contains(msg, "\n") == false {
 		msg += "\n"
 	}
-	_, err := t.Write([]byte(msg + "\n"))
+	_, err := t.Write([]byte(msg))
 	checkErr(err)
 	response := readResponse(t)
 	return response
