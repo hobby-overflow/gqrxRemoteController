@@ -5,7 +5,6 @@ import (
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
-	"github.com/ziutek/telnet"
 	"strings"
 )
 
@@ -26,10 +25,6 @@ func main() {
 	// enter to send freq
 	// telnet connect
 	// send message
-
-	t, err := telnet.Dial("tcp", "127.0.0.1:7356")
-	checkErr(err)
-	defer t.Close()
 
 	freqView := widget.NewLabel("Hello Fyne")
 	input := newEnterEntry()

@@ -11,22 +11,16 @@ func checkErr(err error) {
 	}
 }
 
-func newSession(addr string) *telnet.Conn {
-	conn, err := telnet.Dial("tcp", addr)
-	checkErr(err)
-
-	return conn
-}
-
 func SendMessage(msg string) string {
-	t := newSession("127.0.0.1:7356")
+	t, err := telnet.Dial("tcp", "127.0.0.1:7356")
+    checkErr(err)
 	defer t.Close()
 
 	println(msg)
 	if strings.Contains(msg, "\n") == false {
 		msg += "\n"
 	}
-	_, err := t.Write([]byte(msg))
+	_, err = t.Write([]byte(msg))
 	checkErr(err)
 	response := readResponse(t)
 	return response
